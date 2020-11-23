@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		meta(property="og:url", content="#{url}")
+		meta(property="og:image", content="#{img}")
+		meta(property="og:title", content="#{title}")
+		meta(property="og:description", content="#{text}")
+		meta(property="og:type", content="article")
+
+	body
+		block content
+			p #{url}
+			p #{img}
+			p #{title}
+			p #{text}
+		script.
+			location.replace("#{url}");
