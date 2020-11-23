@@ -9,10 +9,10 @@ router.get('/', function(req, res, next) {
 router.get('/share', function (req, res) {
 
     // var url = req.protocol + '://' + req.get('host') + req.originalUrl; // points to this endpoint
-
+    var imageUrl = "https://og-image-main-2.vercel.app/" + encodeURI(req.query.text) + "?images=" + req.query.img + "&widths=" + req.query.name + "&heights=@" + req.query.username;
     res.render('share', {
         title: decodeURIComponent(req.query.title),
-        img: decodeURIComponent(req.query.img),
+        img: decodeURIComponent(imageUrl),
         text: decodeURIComponent(req.query.text),
         url: decodeURIComponent(req.query.url)
     });
