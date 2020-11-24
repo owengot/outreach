@@ -11,15 +11,14 @@ var Twitter = require('twitter-lite');
 const client = new Twitter({
   consumer_key:         '3OjuXY7YgfkSAuUFKo3fF9BpK',
   consumer_secret:      'CY3Y4ucCPotPOacC9NfFS5pjuSnuZPqEdNoR19fly50aDHKEt6',
-  access_token:         '1331042940274282497-x4wK9j9WhbudtPvk0Sa3HBd8sSHEXM',
-  access_token_secret:  '5NrukkaV9bwGiZ61zBVhGv1eE9dw6STLy3PQhVTFpz65e',
-  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
-  strictSSL:            true,     // optional - requires SSL certificates to be valid.
+  access_token_key:         '1331042940274282497-8YCN2dqLDEDUTk6se4fXMhL6mrf8SR',
+  access_token_secret:  'zp0oQssIGLfYjwMhFA43vO1DQhi8xLf6UvJ9WLyaOoRBi'
 })
 
 router.get('/share', function (req, res) {
 
-    // var url = req.protocol + '://' + req.get('host') + req.originalUrl; // points to this endpoint
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    console.log(fullUrl);
     var imageUrl = "https://og-image-main-2.vercel.app/" + encodeURI(req.query.text) + "?images=" + req.query.img + "&widths=" + req.query.name + "&heights=@" + req.query.username;
     res.render('share', {
         title: decodeURIComponent(req.query.title),
@@ -28,14 +27,7 @@ router.get('/share', function (req, res) {
         url: decodeURIComponent(req.query.url)
     });
 
-    client
-  .get("account/verify_credentials")
-  .then(results => {
-    console.log("results", results);
-  })
-  .catch(console.error);
-  
-    client.post('statuses/update', { status: 'Hello world!' }).then(result => {
+    client.post('statuses/update', { status: fullUrl }).then(result => {
 	  console.log('You successfully tweeted this : "' + result.text + '"');
 	}).catch(console.error);
 
