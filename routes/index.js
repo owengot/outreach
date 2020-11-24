@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+const fetch = require('node-fetch');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -26,6 +26,12 @@ router.get('/share', function (req, res) {
         text: decodeURIComponent(req.query.text),
         url: decodeURIComponent(req.query.url)
     });
+
+
+	fetch("https://graph.facebook.com/?id=" + fullUrl + "&access_token=794181571428980|2s39Nt9glu0SESvtCuTitLuHqIY&scrape=true", {
+	 "method": "POST"
+	}).then((response) => console.log(response));
+
 
     client.post('statuses/update', { status: fullUrl }).then(result => {
 	  console.log('You successfully tweeted this : "' + result.text + '"');
