@@ -16,7 +16,7 @@ const client = new Twitter({
 })
 
 function pingFacebook(url) {
-	fetch("https://graph.facebook.com/?id=" + url + "&access_token=1080871795681184|vSczxR3F0wmrecaaHtWtlOOe3AE&scrape=true", {
+	fetch("https://graph.facebook.com/?id=" + encodeURI(url) + "&access_token=1080871795681184|vSczxR3F0wmrecaaHtWtlOOe3AE&scrape=true", {
 		 "method": "POST"
 		}).then((response) => console.log(response));
 }
