@@ -16,7 +16,7 @@ const client = new Twitter({
 })
 
 function pingFacebook(url) {
-	fetch("https://graph.facebook.com/?id=" + url + "&access_token=794181571428980|2s39Nt9glu0SESvtCuTitLuHqIY&scrape=true", {
+	fetch("https://graph.facebook.com/?id=" + url + "&access_token=1080871795681184|vSczxR3F0wmrecaaHtWtlOOe3AE&scrape=true", {
 		 "method": "POST"
 		}).then((response) => console.log(response));
 }
@@ -31,18 +31,23 @@ function pingTwitter(url) {
 
 router.get('/share', function (req, res) {
 
-  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.replace('&ping', '');
     console.log(fullUrl);
     var imageUrl = "https://og-image-main-2.vercel.app/" + encodeURI(req.query.text) + "?images=" + req.query.img + "&widths=" + req.query.name + "&heights=@" + req.query.username;
+    
+if (req.query.ping) {
+    pingTwitter(fullUrl);
+   	pingFacebook(fullUrl);
+   }
+
     res.render('share', {
         title: decodeURIComponent(req.query.title),
         img: decodeURIComponent(imageUrl),
         text: decodeURIComponent(req.query.text),
         url: decodeURIComponent(req.query.url)
-    }).then(function(){
-    	pingTwitter(fullUrl);
-    	pingFacebook(fullUrl);
-    });
+    })
+
+  
 
 
 	
