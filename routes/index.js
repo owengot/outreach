@@ -15,6 +15,20 @@ const client = new Twitter({
   access_token_secret:  'zp0oQssIGLfYjwMhFA43vO1DQhi8xLf6UvJ9WLyaOoRBi'
 })
 
+function pingFacebook(url) {
+	fetch("https://graph.facebook.com/?id=" + url + "&access_token=794181571428980|2s39Nt9glu0SESvtCuTitLuHqIY&scrape=true", {
+		 "method": "POST"
+		}).then((response) => console.log(response));
+}
+
+function pingTwitter(url) {
+	client.post('statuses/update', { status: url }).then(result => {
+	  console.log('You successfully tweeted this : "' + result.text + '"');
+	}).catch(console.error);
+}
+
+    
+
 router.get('/share', function (req, res) {
 
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -25,17 +39,13 @@ router.get('/share', function (req, res) {
         img: decodeURIComponent(imageUrl),
         text: decodeURIComponent(req.query.text),
         url: decodeURIComponent(req.query.url)
+    }).then(function(){
+    	pingTwitter(fullUrl);
+    	pingFacebook(fullUrl);
     });
 
 
-	fetch("https://graph.facebook.com/?id=" + fullUrl + "&access_token=794181571428980|2s39Nt9glu0SESvtCuTitLuHqIY&scrape=true", {
-	 "method": "POST"
-	}).then((response) => console.log(response));
-
-
-    client.post('statuses/update', { status: fullUrl }).then(result => {
-	  console.log('You successfully tweeted this : "' + result.text + '"');
-	}).catch(console.error);
+	
 
 });
 
