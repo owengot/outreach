@@ -1,6 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const fetch = require('node-fetch');
+
+const keySecret = "sk_test_51Hv4VPFkCQi6gy8wMgkOVAhkeMAt1J17PY4XWkGDCJdSmzMyresHkWo3nz6AiatwXWJFdqRo7sIfoCILlyiIbOWy00CR1LVWcR";
+const keyPublishable = "pk_test_51Hv4VPFkCQi6gy8wWToK70luIgge0vD9mo40Q6Fge0hyV55L7l3n3iXJ5gAtyHzq5BEXAy5FyCtim27G1CxJvCqg00q6mnMLyh";
+
+const stripe = require("stripe")(keySecret);
+
+var bodyParser = require('body-parser')
+router.use(require("body-parser").urlencoded({extended: false}));
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -47,11 +56,23 @@ if (req.query.ping) {
         url: decodeURIComponent(req.query.url)
     })
 
-  
+});
 
-
-	
-
+router.post("/pay", (req, res) => {
+  let amount = req.body.amount;
+  console.log(req.body);
+stripe.customers.create({
+  email: req.body.email,
+  name: req.body.name,
+  source: req.body.source // token for the card
+  })
+  .then(customer =>
+  stripe.charges.create({ // charge the customer
+  amount,
+  description: req.body.description,
+  currency: "eur",
+  customer: customer.id
+  })).then(charge => res.send(charge)).catch(error => res.send(error) );
 });
 
 module.exports = router;

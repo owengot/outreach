@@ -28,6 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use(require("body-parser").urlencoded({extended: false}));
+
+const keyPublishable = "pk_test_51Hv4VPFkCQi6gy8wWToK70luIgge0vD9mo40Q6Fge0hyV55L7l3n3iXJ5gAtyHzq5BEXAy5FyCtim27G1CxJvCqg00q6mnMLyh";
+const keySecret = "sk_test_51Hv4VPFkCQi6gy8wMgkOVAhkeMAt1J17PY4XWkGDCJdSmzMyresHkWo3nz6AiatwXWJFdqRo7sIfoCILlyiIbOWy00CR1LVWcR";
+
+const stripe = require("stripe")(keySecret);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
