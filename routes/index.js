@@ -4,6 +4,12 @@ const fetch = require('node-fetch');
 
 const keySecret = "sk_test_51Hv4VPFkCQi6gy8wMgkOVAhkeMAt1J17PY4XWkGDCJdSmzMyresHkWo3nz6AiatwXWJFdqRo7sIfoCILlyiIbOWy00CR1LVWcR";
 const keyPublishable = "pk_test_51Hv4VPFkCQi6gy8wWToK70luIgge0vD9mo40Q6Fge0hyV55L7l3n3iXJ5gAtyHzq5BEXAy5FyCtim27G1CxJvCqg00q6mnMLyh";
+var cors = require('cors')
+
+var corsOptions = {
+  origin: 'https://anywhere.edgeryders.eu',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 const stripe = require("stripe")(keySecret);
 
@@ -58,7 +64,7 @@ if (req.query.ping) {
 
 });
 
-router.post("/pay", (req, res) => {
+router.post("/pay", cors(corsOptions), function(req, res) => {
   let amount = req.body.amount;
   console.log(req.body);
 stripe.customers.create({
