@@ -6,7 +6,6 @@ const keySecret = "sk_test_51Hv4VPFkCQi6gy8wMgkOVAhkeMAt1J17PY4XWkGDCJdSmzMyresH
 const keyPublishable = "pk_test_51Hv4VPFkCQi6gy8wWToK70luIgge0vD9mo40Q6Fge0hyV55L7l3n3iXJ5gAtyHzq5BEXAy5FyCtim27G1CxJvCqg00q6mnMLyh";
 
 
-
 const stripe = require("stripe")(keySecret);
 
 var bodyParser = require('body-parser')
@@ -60,7 +59,7 @@ if (req.query.ping) {
 
 });
 
-router.post("/pay", function(req, res) => {
+router.post("/pay", (req, res) => {
   let amount = req.body.amount;
   console.log(req.body);
 stripe.customers.create({
